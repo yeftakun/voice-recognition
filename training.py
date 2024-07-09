@@ -5,9 +5,14 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 import librosa
 import pickle
+from dotenv import load_dotenv
+
+load_dotenv()
+epoch_val = int(os.getenv('EPOCH_VAL'))
+max_pad = int(os.getenv('MAX_PAD_LEN'))
 
 # Fungsi untuk ekstraksi fitur MFCC dari file audio
-def extract_features(file_path, max_pad_len=40):
+def extract_features(file_path, max_pad_len=max_pad):
     try:
         audio, sample_rate = librosa.load(file_path, res_type='kaiser_fast')
         mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
@@ -68,7 +73,7 @@ model = Sequential([
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # Training model
-model.fit(X, y_encoded, epochs=500, batch_size=16, validation_split=0.2)
+model.fit(X, y_encoded, epochs=epoch_val, batch_size=16, validation_split=0.2)
 
 # Simpan model
 model.save('voice_recognition_model.h5')

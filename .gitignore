@@ -1,4 +1,3 @@
-dataset/yefta/
-label_encoder.pkl
-voice_recognition_model.h5
+# label_encoder.pkl
+# voice_recognition_model.h5
 .vscode/
